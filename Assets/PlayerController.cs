@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PLAYER_STATE
+{
+	NORMAL,
+	INTERACTING
+}
+
 public class PlayerFSM
 {
 	public static PlayerState_Normal state_Normal = new PlayerState_Normal();
@@ -53,7 +59,7 @@ public class PlayerState_Normal : PlayerState
 	{
 		base.EnterState(_player);
 
-		player.NormalStateEnter();
+		//player.NormalStateEnter();
 	}
 	public override void Process()
 	{
@@ -130,7 +136,7 @@ public class PlayerController : MonoBehaviour
 		currentInteractable = _interactable;
 		Interactable interactable = currentInteractable.GetComponent<Interactable>();
 		currentState = PlayerFSM.ChangeState(PLAYER_STATE.INTERACTING, ref currentState);
-		interactable.Interaction();
+		interactable.StartInteraction();
 	}
 
 	public void EndInteraction()
@@ -145,20 +151,20 @@ public class PlayerController : MonoBehaviour
 		Interactable interactable = currentInteractable.GetComponent<Interactable>();
 
 
-		if (interactable.interactableType == INTERACTABLE_TYPE.FOCUSED)
-		{
-			/* In the game I'm making, I focus the camera in a direction and position. We might want to do something similar. */
-			//cameraScript.StartZoom(playerCamera.transform, interactable.cameraFocusLocation);
-			//gameObject.transform.rotation = interactable.playerFocusLocation.rotation;
-			//float y = gameObject.transform.position.y;
-			//gameObject.transform.position = new Vector3(interactable.playerFocusLocation.position.x, y, interactable.playerFocusLocation.position.z);
-			//Cursor.visible = true;
-			//Cursor.lockState = CursorLockMode.Confined;
-		}
-		else if (interactable.interactableType == INTERACTABLE_TYPE.UNFOCUSED)
-		{
-			// empty for now
-		}
+		//if (interactable.interactableType == INTERACTABLE_TYPE.FOCUSED)
+		//{
+		//	/* In the game I'm making, I focus the camera in a direction and position. We might want to do something similar. */
+		//	//cameraScript.StartZoom(playerCamera.transform, interactable.cameraFocusLocation);
+		//	//gameObject.transform.rotation = interactable.playerFocusLocation.rotation;
+		//	//float y = gameObject.transform.position.y;
+		//	//gameObject.transform.position = new Vector3(interactable.playerFocusLocation.position.x, y, interactable.playerFocusLocation.position.z);
+		//	//Cursor.visible = true;
+		//	//Cursor.lockState = CursorLockMode.Confined;
+		//}
+		//else if (interactable.interactableType == INTERACTABLE_TYPE.UNFOCUSED)
+		//{
+		//	// empty for now
+		//}
 	}
 
 	public void InteractingStateUpdate()
@@ -217,7 +223,7 @@ public class PlayerController : MonoBehaviour
 	void Move()
 	{
 		// if a key is pressed and the player is on a platform
-		if (KeyBindings.IfAnyKey())
+		if (Input.anyKey)
 		{
 
 		}

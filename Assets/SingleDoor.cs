@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GameSystems;
 
 public class SingleDoor : Interactable
 {
@@ -19,7 +18,6 @@ public class SingleDoor : Interactable
 
     public void Awake()
     {
-        interactableType = INTERACTABLE_TYPE.UNFOCUSED;
         doorRotation = doorRotationClosedLimit;
         torque = 0f;
         directionModifier = 1f; 
@@ -30,11 +28,11 @@ public class SingleDoor : Interactable
         isHoldingDoor = false;
     }
 
-    public override void Interaction()
+    public override void StartInteraction()
     {
         isHoldingDoor = true;
 
-        Vector3 toPlayer = GameController.GetPlayer().transform.position - transform.position;
+        Vector3 toPlayer = new Vector3(); // = GameController.GetPlayer().transform.position - transform.position;
 
         if (Vector3.Angle(transform.forward, toPlayer) < 90f)
         {
